@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Ramadan Recipe</title>
+  <meta name="theme-color" content="#09111f"/>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,700&family=DM+Sans:wght@300;400;500;600;700&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"/>
+
+  <link rel="stylesheet" href="./style.css"/>
+</head>
+
+<body>
+  <div class="bg-canvas">
+    <div class="stars"></div>
+    <div class="geo"></div>
+  </div>
+
+  <div class="moon-wrap">
+    <div class="moon">
+      <div class="moon-body"></div>
+      <div class="moon-shadow"></div>
+      <div class="moon-face">
+        <span class="eye e1"></span>
+        <span class="eye e2"></span>
+        <span class="smile"></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="tarcBadge" id="tarcBadge">
+      <span class="tarcBadgeIcon">🏫</span>
+      <div class="tarcBadgeText">
+        <div class="tarcBadgeTop">Days at TARC</div>
+        <div class="tarcBadgeDays"><span id="tarcDaysValue2">—</span></div>
+      </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+      <div class="header-left">
+        <div class="mascot-shell" title="Crochic 🧶">
+          <div class="mascot-halo"></div>
+          <div class="mascot-frame">
+            <img class="mascot-img" src="./logo_cropped.png" alt="Crochic Mascot"/>
+          </div>
+          <span class="sp sp1"></span>
+          <span class="sp sp2"></span>
+          <span class="sp sp3"></span>
+        </div>
+
+        <div class="brand-text">
+          <div class="brand-title">Ramadan Recipe 🌙</div>
+        </div>
+      </div>
+
+      <div class="pill-row">
+        <div class="pill" id="ramadanPill">
+          <b id="ramadanDayText">Ramadan Day —</b>
+          <span id="ramadanDateText">—</span>
+        </div>
+
+        <!-- Premium Sehri + Iftar Countdown Pills -->
+        <div class="pill countdown-pill" id="sehriPill">
+          <div class="cd-row">
+            <img class="cd-icon" src="./sehri.png" alt="Sehri Icon">
+            <div class="cd-text">
+              <b>Sehri</b>
+              <span id="sehriTime">--:--:--</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="pill countdown-pill" id="iftarPill">
+          <div class="cd-row">
+            <img class="cd-icon" src="./iftar.png" alt="Iftar Icon">
+            <div class="cd-text">
+              <b>Iftar</b>
+              <span id="iftarTime">--:--:--</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="pill">
+          <b id="pillMood">Mood: Sad</b>
+          <span id="pillIdx">Ayah 1 / 30</span>
+        </div>
+
+        <div class="pill">
+          <b id="pillRef">Loading…</b>
+          <span id="pillMode">Mode: Ordered</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main grid -->
+    <div class="grid">
+      <!-- Left: Ayah Card -->
+      <section class="card ayah-card">
+        <div class="ayah-top">
+          <div class="status-row">
+            <div id="dot" class="dot wait"></div>
+            <div class="status-text">
+              <div class="status-title">Your Ayah</div>
+              <div id="hint" class="status-hint">Fetching ayah…</div>
+            </div>
+          </div>
+
+          <div class="controls">
+            <button class="btn btn-gold" id="btnShuffle">🔀 Shuffle</button>
+            <button class="btn btn-sky" id="btnNext">Next Ayah →</button>
+            <button class="btn btn-rose" id="btnCopy">Copy ✦</button>
+
+            <div class="toggle-wrap" id="toggleWrap">
+              <div id="sw" class="toggle-track" role="switch" aria-checked="false" tabindex="0">
+                <div class="toggle-knob"></div>
+              </div>
+              <span id="swLabel" class="toggle-label">Shuffle: OFF</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="ayah-body">
+          <div id="arabic" class="arabic-box fadeIn">…</div>
+          <div id="trans"  class="trans-box  fadeIn">…</div>
+
+          <div class="ayah-meta">
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <span class="tag gold" id="refChip">—</span>
+              <span class="tag" id="srcChip">Source: AlQuran.cloud</span>
+            </div>
+            <span class="tag" id="cacheChip">Cache: —</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right sidebar -->
+      <aside class="sidebar">
+        <!-- Mood picker -->
+        <div class="card mood-card">
+          <div class="section-head">
+            <span class="section-title">Choose Mood</span>
+            <span class="bismillah">بِسْمِ ٱللَّٰهِ</span>
+          </div>
+          <div class="mood-grid" id="moodGrid"></div>
+        </div>
+
+        <!-- Spotify Card -->
+        <div class="card sp-card" id="spCard" onclick="openSpotify()" style="position:relative; cursor:pointer;">
+          <!-- animated blobs -->
+          <div class="sp-blob sp-blob1"></div>
+          <div class="sp-blob sp-blob2"></div>
+          <div class="sp-blob sp-blob3"></div>
+
+          <!-- waveform behind everything -->
+          <div class="sp-wave-bg" id="spWaveBg"></div>
+
+          <!-- LOCK OVERLAY -->
+          <div class="sp-lock-overlay hidden" id="spLockOverlay">
+            <div class="sp-lock-glow"></div>
+
+            <div class="sp-lock-panel">
+              <div class="sp-lock-badge">🔒 LOCKED</div>
+              <div class="sp-lock-title">NO ACCESS</div>
+              <div class="sp-lock-sub">UNTIL IFTAR</div>
+
+              <div class="sp-lock-count">
+                <span class="sp-lock-count-label">Unlocks in</span>
+                <span class="sp-lock-count-time" id="spLockCountdown">--:--:--</span>
+              </div>
+
+              <div class="sp-lock-foot">Come back after Iftar 🌙</div>
+            </div>
+          </div>
+
+          <div class="sp-inner">
+            <!-- top row -->
+            <div class="sp-top-row">
+              <div class="sp-mascot-wrap">
+                <img src="./logo_cropped.png" alt="Crochic" class="sp-mascot-img"/>
+                <div class="sp-mascot-ring"></div>
+              </div>
+
+              <div class="sp-playlist-info">
+                <div class="sp-playlist-name">After Iftar Playlist</div>
+                <div class="sp-playlist-sub">Crochic · Curated for Ramadan 🌙</div>
+              </div>
+              <div class="sp-green-dot"></div>
+            </div>
+
+            <!-- live bars -->
+            <div class="sp-bars-row">
+              <div class="sp-bars" id="spBars"></div>
+              <span class="sp-now-label">Now playing on Spotify</span>
+            </div>
+
+            <!-- CTA button -->
+            <button class="sp-cta" id="spCta">
+              <svg class="sp-svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.516 17.318a.748.748 0 01-1.03.247c-2.823-1.726-6.376-2.116-10.563-1.159a.748.748 0 01-.333-1.458c4.582-1.048 8.514-.597 11.68 1.34a.748.748 0 01.246 1.03zm1.474-3.278a.936.936 0 01-1.287.308c-3.23-1.985-8.152-2.56-11.97-1.401a.936.936 0 01-.543-1.79c4.363-1.325 9.786-.682 13.492 1.597a.936.936 0 01.308 1.286zm.127-3.411c-3.876-2.302-10.268-2.514-13.967-1.39a1.122 1.122 0 01-.651-2.147c4.247-1.29 11.301-1.04 15.76 1.607a1.122 1.122 0 01-1.142 1.93z"/>
+              </svg>
+              Open in Spotify
+              <span class="sp-arrow">↗</span>
+            </button>
+
+            <!-- lock state -->
+            <div id="spLockBar" class="sp-lock-bar hidden">
+              <span class="sp-lock-icon">🔒</span>
+              <span>Unlocks at Iftar · </span>
+              <span id="spLockTime" class="sp-lock-time">—</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tip card -->
+        <div class="card tip-card">
+          <p class="tip-text">
+            <strong>✦ Tip:</strong> Turn Shuffle ON and keep pressing Next to explore ayat in your chosen mood.
+          </p>
+          <p class="tip-text" style="margin-top:10px;">
+            <strong>📖 Note:</strong> Always verify meaning with a trusted tafsir when making decisions.
+          </p>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <div id="toast" class="toast">Copied!</div>
+
+  <script src="./app.js"></script>
+</body>
+</html>
